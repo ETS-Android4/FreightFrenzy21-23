@@ -6,6 +6,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+/*
+Drive LinearOpMode is used as a basis for all our wheel movement throughout the robot.
+More components will be added as new robot mechanics are created.
+
+The TeleOp has two states. Precision and Normal. Normal will allow for full control limits,
+while precision uses 1/4 the power for even more precise motion.
+*/
 
 @TeleOp(name = "CargoBot: Teleop POV", group = "CargoBot")
 public class Drive extends LinearOpMode {
@@ -19,7 +26,6 @@ public class Drive extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         // Wait for the game to start (driver presses PLAY)
-        //waitForStart();
         boolean precisionMode = false;
         telemetry.addData("opModeIsActive", opModeIsActive());
         telemetry.update();
@@ -37,6 +43,7 @@ public class Drive extends LinearOpMode {
 
             // Precision Mode
             if (precisionMode) {
+                // Precision Mode
                 telemetry.addData("Precision", "true");
                 telemetry.update();
                 robot.frontLeft.setPower(v1 / 4);
@@ -45,8 +52,6 @@ public class Drive extends LinearOpMode {
                 robot.backRight.setPower(v4 / 4);
             } else {
                 // Normal Mode
-                //telemetry.addData("Driving", "true");
-                //telemetry.update()
                 robot.frontLeft.setPower(v1);
                 robot.frontRight.setPower(v2);
                 robot.backLeft.setPower(v3);

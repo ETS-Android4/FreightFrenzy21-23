@@ -5,10 +5,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+/*
+TestForPhoneConnection TelOp is used to make sure that the android phones
+are able to make a connection through the FTC apps. Connection will be
+notified with Status: Initialized. When the run button is pressed the
+notification will change to Status: Running.
+*/
+
 @TeleOp
-public class test extends LinearOpMode{
-
-
+public class TestForPhoneConnection extends LinearOpMode{
 
     private static DcMotor frontLeft;
     private static DcMotor backLeft;
@@ -24,9 +29,9 @@ public class test extends LinearOpMode{
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
 
-        frontLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        backLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.FORWARD);
 
         frontLeft.setPower(0);
@@ -37,8 +42,10 @@ public class test extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
-
-
+        while(opModeIsActive()){
+            telemetry.addData("Status", "Running");
+            telemetry.update();
+        }
 
     }
 
