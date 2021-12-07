@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class CargoBot_2021 {
 
@@ -15,6 +16,8 @@ public class CargoBot_2021 {
         public DcMotor frontRight;
         public DcMotor backLeft;
         public DcMotor backRight;
+        public Servo clawHead;
+        public Servo clawArm;
 
         public CargoBot_2021(){
         }
@@ -28,6 +31,8 @@ public class CargoBot_2021 {
             frontRight = hwMap.get(DcMotor.class, "frontRight");
             backLeft = hwMap.get(DcMotor.class, "backLeft");
             backRight = hwMap.get(DcMotor.class, "backRight");
+            clawHead = hwMap.get(Servo.class, "clawHead");
+            clawArm = hwMap.get(Servo.class, "clawArm");
             // Set motor direction
             frontLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
             frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
@@ -39,6 +44,13 @@ public class CargoBot_2021 {
             backLeft.setPower(0);
             backRight.setPower(0);
 
+        }
+
+        public void setClawHeadPos(double pos){
+            clawHead.setPosition(pos);
+        }
+        public void setClawArmPos(double pos){
+            clawArm.setPosition(pos);
         }
 
 }

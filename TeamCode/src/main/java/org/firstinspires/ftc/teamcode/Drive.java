@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
-@TeleOp(name = "CargoBot: Teleop POV", group = "CargoBot")
+@TeleOp(name = "Drive and Claw Control", group = "CargoBot")
 public class Drive extends LinearOpMode {
     // Declare OpMode members.
     CargoBot_2021 robot = new CargoBot_2021();
@@ -21,6 +21,8 @@ public class Drive extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         //waitForStart();
         boolean precisionMode = false;
+        int clawArmPos = 0;
+        boolean toggleForClawHead = false;
         telemetry.addData("opModeIsActive", opModeIsActive());
         telemetry.update();
         // Run until the end of the match (driver presses STOP)
@@ -54,11 +56,32 @@ public class Drive extends LinearOpMode {
             }
 
             // Precision Mode Toggle
-            if (gamepad1.b) {
+            if (gamepad1.a) {
                 precisionMode = false;
-            } else if (gamepad1.x) {
+            } else if(gamepad1.x) {
                 precisionMode = true;
             }
+
+            //GamePad 2: Claw Control
+            if(gamepad2.a && toggleForClawHead){
+                //Open Claw Head
+                robot.setClawHeadPos(0.3);
+                toggleForClawHead = false;
+            } else if (gamepad2.a && !toggleForClawHead){
+                //Close Claw Head
+                robot.setClawHeadPos(0);
+                toggleForClawHead = true;
+            }
+            if(gamepad2.dpad_up > 0){
+                if(clawArmPos - 0.1 < 0) {return;};
+                clawArmPos -= 0.1;
+            } else if(gamepad2.dpad_down < 0) {
+                if(clawArmPos + 0.1 > 1) {return;};
+                clawArmPos += 0.1;
+            }
+            telemetry.addData("ClawPos",clawArmPos);
+            robot.setClawArmPos(clawArmPos);
+
         }
     }
 }
