@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -16,8 +17,10 @@ public class CargoBot_2021 {
         public DcMotor frontRight;
         public DcMotor backLeft;
         public DcMotor backRight;
-        public Servo clawHead;
-        public Servo clawArm;
+        public Servo clawWrist;
+        public Servo clawHeadOpenClose;
+        public DcMotor beamExtend;
+        public DcMotor beamRL;
 
         public CargoBot_2021(){
         }
@@ -31,26 +34,58 @@ public class CargoBot_2021 {
             frontRight = hwMap.get(DcMotor.class, "frontRight");
             backLeft = hwMap.get(DcMotor.class, "backLeft");
             backRight = hwMap.get(DcMotor.class, "backRight");
-            clawHead = hwMap.get(Servo.class, "clawHead");
-            clawArm = hwMap.get(Servo.class, "clawArm");
+            clawWrist = hwMap.get(Servo.class, "clawWrist");
+            clawHeadOpenClose = hwMap.get(Servo.class, "clawHeadOpenClose");
+            beamExtend = hwMap.get(DcMotor.class, "beamExtend");
+            beamRL = hwMap.get(DcMotor.class,"beamRL");
             // Set motor direction
             frontLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
             frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
             backLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
             backRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+            beamExtend.setDirection(DcMotor.Direction.FORWARD);
+            beamRL.setDirection(DcMotor.Direction.FORWARD);
             // Set all motors to zero power
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
             backRight.setPower(0);
+            beamExtend.setPower(0);
+            beamRL.setPower(0);
 
         }
 
-        public void setClawHeadPos(double pos){
-            clawHead.setPosition(pos);
-        }
-        public void setClawArmPos(double pos){
-            clawArm.setPosition(pos);
+        public void setClawWristPos(double pos){clawWrist.setPosition(pos);}
+        public void setBeamArmLengthPower(double power){beamExtend.setPower(power);}
+        public void setBeamArmRLPower(double power){beamExtend.setPower(power);}
+
+        public move(char dir, double power, double rotation){
+
+            /*
+            Forward is Negative Y Neutral X
+            Backward is Positive Y Neutral X
+            Left is Neutral Y Negative X
+            Right is Neutral Y Positive X
+            */
+
+            double r = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
+            double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            double rightX = gamepad1.right_stick_x;
+            final double v1 = r * Math.cos(robotAngle) + rightX;
+            final double v2 = r * Math.sin(robotAngle) - rightX;
+            final double v3 = r * Math.sin(robotAngle) + rightX;
+            final double v4 = r * Math.cos(robotAngle) - rightX;
+
+            if(dir == 'f'){
+
+            } else if(dir == 'b'){
+
+            } else if(dir == 'l'){
+
+            } else if(dir == 'r'){
+
+            }
+
         }
 
 }
