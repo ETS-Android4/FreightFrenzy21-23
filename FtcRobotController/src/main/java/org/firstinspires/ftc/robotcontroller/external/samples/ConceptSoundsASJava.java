@@ -55,7 +55,7 @@ import java.io.File;
  * You can create your own "raw" folder from scratch, or you can copy the one from the FtcRobotController module.
  *
  *     Android Studio coders will ultimately need a folder in your path as follows:
- *       <project root>/TeamCode/src/main/res/raw
+ *       <project root>/TeamCode/opencv-java/main/res/raw
  *
  *     Copy any .wav files you want to play into this folder.
  *     Make sure that your files ONLY use lower-case characters, and have no spaces or special characters other than underscore.
@@ -64,7 +64,7 @@ import java.io.File;
  *     eg:  gold.wav becomes R.raw.gold
  *
  *     If you wish to use the sounds provided for this sample, they are located in:
- *     <project root>/FtcRobotController/src/main/res/raw
+ *     <project root>/FtcRobotController/opencv-java/main/res/raw
  *     You can copy and paste the entire 'raw' folder using Android Studio.
  *
  */
@@ -99,8 +99,8 @@ public class ConceptSoundsASJava extends LinearOpMode {
             silverFound = SoundPlayer.getInstance().preload(hardwareMap.appContext, silverSoundID);
 
         // Display sound status
-        telemetry.addData("gold resource",   goldFound ?   "Found" : "NOT found\n Add gold.wav to /src/main/res/raw" );
-        telemetry.addData("silver resource", silverFound ? "Found" : "Not found\n Add silver.wav to /src/main/res/raw" );
+        telemetry.addData("gold resource",   goldFound ?   "Found" : "NOT found\n Add gold.wav to /opencv-java/main/res/raw" );
+        telemetry.addData("silver resource", silverFound ? "Found" : "Not found\n Add silver.wav to /opencv-java/main/res/raw" );
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData(">", "Press Start to continue");
