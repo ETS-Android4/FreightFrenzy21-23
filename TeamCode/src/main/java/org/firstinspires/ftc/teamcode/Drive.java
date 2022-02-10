@@ -26,17 +26,17 @@ public class Drive extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         robot.init(hardwareMap);
-        // Wait for the game to start (driver presses PLAY)
+
         boolean precisionMode = false;
         int clawWristPos = 0;
         int clawHandPos = 0;
         double beamLengthPower = 0.2;
         double beamAnglePower = 0.2;
         double clawWristPosAddable = 0.2;
+        boolean isClawOpen = false;
         telemetry.addData("opModeIsActive", opModeIsActive());
         telemetry.update();
-        // Run until the end of the match (driver presses STOP)
-        waitForStart();
+        waitForStart(); // Wait for the game to start (driver presses PLAY)
         while (opModeIsActive()) {
             double r = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
             double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
@@ -89,17 +89,23 @@ public class Drive extends LinearOpMode {
                 clawWristPos += clawWristPosAddable;
             }
 
-            //Changes the beam height
+            //Changes the beam up and down height
             if(gamepad2.dpad_up){
                 robot.setBeamArmRLPower(beamAnglePower);
             } else if(gamepad2.dpad_down) {
                 robot.setBeamArmRLPower(beamAnglePower);
             }
 
-            if (gamepad2.right_trigger>.2) {
-                robot.setClawHandOpenClose(180);
+            //Opens and Closes the claw
+            if (gamepad2.right_trigger>.2 && isClawOpen) {
+                isClawOpen = false;
+                robot.setClawHeadOpenClose(false);
+            } else if(gamepad2.right_trigger>.2 && isClawOpen){
+                isClawOpen = true;
+                robot.setClawHeadOpenClose(true);
             }
 
+            //Changes the length of the beam
             if(gamepad2.dpad_left){
                 robot.setBeamArmLengthPower(-beamLengthPower);
             } else if(gamepad2.dpad_right) {
@@ -109,8 +115,7 @@ public class Drive extends LinearOpMode {
             }
 
             robot.setClawWristPos(clawWristPos);
-            }
-
 
         }
+    }
 }

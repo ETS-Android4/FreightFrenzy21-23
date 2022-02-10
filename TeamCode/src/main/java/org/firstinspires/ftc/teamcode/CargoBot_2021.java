@@ -58,34 +58,14 @@ public class CargoBot_2021 {
         public void setClawWristPos(double pos){clawWrist.setPosition(pos);}
         public void setBeamArmLengthPower(double power){beamExtend.setPower(power);}
         public void setBeamArmRLPower(double power){beamExtend.setPower(power);}
-
-        public move(char dir, double power, double rotation){
-
-            /*
-            Forward is Negative Y Neutral X
-            Backward is Positive Y Neutral X
-            Left is Neutral Y Negative X
-            Right is Neutral Y Positive X
-            */
-
-            double r = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
-            double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-            double rightX = gamepad1.right_stick_x;
-            final double v1 = r * Math.cos(robotAngle) + rightX;
-            final double v2 = r * Math.sin(robotAngle) - rightX;
-            final double v3 = r * Math.sin(robotAngle) + rightX;
-            final double v4 = r * Math.cos(robotAngle) - rightX;
-
-            if(dir == 'f'){
-
-            } else if(dir == 'b'){
-
-            } else if(dir == 'l'){
-
-            } else if(dir == 'r'){
-
+        public void setClawHeadOpenClose(boolean open){ //True sets to open and False sets to close
+            if(open){
+                //Open Claw
+                clawHeadOpenClose.setPosition(.5);
+            } else {
+                //Close Claw
+                clawHeadOpenClose.setPosition(0);
             }
-
         }
 
 }

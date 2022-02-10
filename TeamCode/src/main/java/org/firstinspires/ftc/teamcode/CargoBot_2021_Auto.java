@@ -43,4 +43,86 @@ public class CargoBot_2021_Auto extends LinearOpMode {
         waitForStart();
 
     }
+
+    public void encoderDrive(double speed,
+                             double dist, // in inches
+                             char dir ) {
+        int TIMEOUT = 10;
+
+        int target;
+        // Ensure that the opmode is still active
+        try {
+            if (opModeIsActive()) {
+                // Determine new target position, and pass to motor controller
+
+                target = (int) (dist * COUNTS_PER_INCH);
+                // Decide which direction each motor should go
+                if (dir == 'F') {
+                    robot.frontLeft.setTargetPosition(target);
+                    robot.frontRight.setTargetPosition(target);
+                    robot.backLeft.setTargetPosition(target);
+                    robot.backRight.setTargetPosition(target);
+                } else if (dir == 'B') {
+                    robot.frontLeft.setTargetPosition(-target);
+                    robot.frontRight.setTargetPosition(-target);
+                    robot.backLeft.setTargetPosition(-target);
+                    robot.backRight.setTargetPosition(-target);
+                } else if (dir == 'L') {
+                    robot.frontLeft.setTargetPosition(-target);
+                    robot.frontRight.setTargetPosition(target);
+                    robot.backLeft.setTargetPosition(target);
+                    robot.backRight.setTargetPosition(-target);
+                } else if (dir == 'R') {
+                    robot.frontLeft.setTargetPosition(target);
+                    robot.frontRight.setTargetPosition(-target);
+                    robot.backLeft.setTargetPosition(-target);
+                    robot.backRight.setTargetPosition(target);
+                }
+                // Turn On RUN_TO_POSITION
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                // reset the timeout time and start motion.
+                runtime.reset();
+                robot.frontLeft.setPower(Math.abs(speed));
+                robot.frontRight.setPower(Math.abs(speed));
+                robot.backLeft.setPower(Math.abs(speed));
+                robot.backRight.setPower(Math.abs(speed));
+                while (opModeIsActive() &&
+                        (runtime.seconds() < TIMEOUT) &&
+                        (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.backRight.isBusy() && robot.backLeft.isBusy())) {
+
+                    // Display it for the driver.
+                    telemetry.addData("Path1", "Running to %7d :%7d", target, target);
+                    telemetry.addData("Path2", "Running at %7d :%7d",
+                            robot.frontLeft.getCurrentPosition(),
+                            robot.frontRight.getCurrentPosition());
+                    telemetry.addData("Back wheels", target + "" + target);
+                    telemetry.update();
+                }
+
+                // Stop all motion
+                robot.frontLeft.setPower(0);
+                robot.frontRight.setPower(0);
+                robot.backLeft.setPower(0);
+                robot.backRight.setPower(0);
+                // Turn off RUN_TO_POSITION
+                robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                //  sleep(250);   // optional pause after each move
+            }
+        } catch (TargetPositionNotSetException e) {
+            telemetry.addData("Mission Failed", "We'll get 'em next time: ");
+            telemetry.update();
+        }
+    }
+
 }
